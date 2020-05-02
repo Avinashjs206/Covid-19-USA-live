@@ -15,7 +15,7 @@
             <thead>
                 <tr>
                     
-                    <th class="text-capitalize">state</th>
+                    <th class="text-capitalize">state Code</th>
                     <th class="text-capitalize">Lastupdate</th>
                     <th class="text-capitalize">Total TEST</th>
                     <th class="text-capitalize">positive</th>
