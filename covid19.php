@@ -9,7 +9,7 @@
     if ($con) {
         ?>
         <script>
-            alert('conection seccessfull');
+            // alert('conection seccessfull');
         </script>
         <?php
     }

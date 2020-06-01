@@ -9,37 +9,13 @@
     <?php include 'css/style.php' ?>
 </head>
 
-<body>
+<body onload="fetch()">
+    <div>
+    <?php include 'nav.php' ?>
     
+</div>
 
-        <nav class="navbar navbar-expand-lg nav_style p-3">
-            <a class="navbar-brand pl-5" href="#">COVID-19</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav ml-auto pr-5">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#about">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#symp">Symptoms</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#prevention">Prevention</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#contect">Contact</a>
-                    </li>
-
-            </div>
-        </nav>
-
+        
         <div class="main_header">
             <div class="row w-100 h-100">
                 <div class="col-md-5 col-md-5 col-12 order-lg-1 order-2">
@@ -57,27 +33,23 @@
             </div>
         </div>
         <!-- ---------- CORONA LETEST UPDATE ------------ -->
-        <div class="corona_update mb-5">
+        <div class="corona_update mb-5 container-fluid">
             <div class="mb-3 text-center">
-                <h3 class="mb-5">COVID-19 UPDATE</h3>
+                <h3 class="mb-5" id="worlData">COVID-19 UPDATE WORLD WIDE</h3>
             </div>
-            <div class="d-flex justify-content-around align-items-center">
-                <div class="container">
-                    <h1 class="count">1526266</h1>
-                    <p>Passenger screened at Airport</p>
-                </div>
-                <div>
-                    <h1 class="count">512</h1>
-                    <p>Active COVID-19 Cases*</p>
-                </div>
-                <div>
-                    <h1 class="count">40</h1>
-                    <p>Cured/discharge Cases</p>
-                </div>
-                <div>
-                    <h1 class="count">9</h1>
-                    <p>Death Cases</p>
-                </div>
+            <div class="table-responsive">
+                <table class="table table-striped table-dark" id="tbval">
+                    <tr>
+                        <td>Country</td>
+                        <td>TotalConfermed</td>
+                        <!-- <td>TotalActive</td> -->
+                        <td>TotalRecovered</td>
+                        <td>TotalDeath</td>
+                        <td>NewConfermed</td>
+                        <td>NewRecovered</td>
+                        <td>NewDeaths</td>
+                    </tr>
+                </table>
             </div>
         </div>
         <!-- -------------- About Section --------------- -->
@@ -306,12 +278,9 @@
             <i class="fa fa-arrow-up" onclick="topFunction()" id="myBtn"></i>
         </div>
         <!-- --------- fotter ------------ -->
-
-        <footer class="mt-5">
-            <div class="footer_style text-white text-center container-fluid">
-                <p><i class="fa fa-copyright text-white" aria-hidden="true"></i>copyright by Golujs2000</p>
-            </div>
-        </footer>
+        <div>
+        <?php include 'footer.php' ?>
+    </div>
         <script type="text/javascript">
         // $('.count').counterUp({
         //     delay: 10,
@@ -329,6 +298,36 @@
             function topFunction(){
                 document.body.scrollTop = 0;
                 document.documentElement.scrollTop  = 0;
+            }
+
+            function fetch() {
+                $.get("https://api.covid19api.com/summary",
+                    function(data){
+                        // console.log(data['Countries'].length);
+                        var tbval = document.getElementById('tbval');
+                        for (let i = 1; i < data['Countries'].length; i++) {
+                            var x = tbval.insertRow();
+                            x.insertCell(0);
+                            tbval.rows[i].cells[0].innerHTML = data['Countries'][i]['Country'];
+                            tbval.rows[i].cells[0].style.background = '#38C9FB';
+                            tbval.rows[i].cells[0].style.color = '#fffff';
+                            x.insertCell(1);
+                            tbval.rows[i].cells[1].innerHTML = data['Countries'][i]['TotalConfirmed'];
+                            x.insertCell(2);
+                            tbval.rows[i].cells[2].innerHTML = data['Countries'][i]['TotalRecovered'];
+                            x.insertCell(3);
+                            tbval.rows[i].cells[3].innerHTML = data['Countries'][i]['TotalDeaths'];
+                            x.insertCell(4);
+                            tbval.rows[i].cells[4].innerHTML = data['Countries'][i]['NewConfirmed'];
+                            x.insertCell(5);
+                            tbval.rows[i].cells[5].innerHTML = data['Countries'][i]['NewRecovered'];
+                            x.insertCell(6);
+                            tbval.rows[i].cells[6].innerHTML = data['Countries'][i]['NewDeaths'];
+                            
+                        }
+                    }
+                
+                )
             }
         </script>
     
@@ -357,14 +356,14 @@
         if ($query) {
             ?>
             <script>
-                alert('insert seccessfull');
+                // alert('insert seccessfull');
             </script>
             <?php
         }
         else{
             ?>
             <script>
-                alert('insert not seccessfull');
+                // alert('insert not seccessfull');
             </script>
             <?php
         }
